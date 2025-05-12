@@ -9,7 +9,7 @@ let main (argv: string[]) : int =
     let records = readCsv "data/dow_jones_close_prices_aug_dec_2024.csv"
     let matrix = toMatrix records
 
-    Thread-safe collection to store results
+    // Thread-safe collection to store results
     let results = System.Collections.Concurrent.ConcurrentBag<SharpResult>()
 
     let simulate cols =
@@ -23,7 +23,7 @@ let main (argv: string[]) : int =
     toJson "data/output.json" bestOverall timeTaken
 
     // Evaluate Weights
-    let bestSharp = readJson "data/output.json"
+    let bestSharp = readJson "results/output.json"
     let records = readCsv "data/dow_jones_close_prices_jan_mar_2025.csv"
     let matrix = toMatrix records
 

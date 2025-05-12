@@ -6,9 +6,9 @@ tickers = [
     "UNH", "GS", "MSFT", "HD", "V", "SHW", "MCD", "CAT", "AMGN", "AXP",
 ]
 
-start_date = "2025-01-01"
-end_date = "2025-03-31"
+start_date = "2024-08-01"
+end_date = "2024-12-31"
 
 raw_data = yf.download(tickers, start=start_date, end=end_date)
 close_data = raw_data["Close"]
-close_data.to_csv("data/dow_jones_close_prices_jan_mar_2025.csv")
+close_data.to_csv("dow_jones_close_prices_aug_dec_2024.csv")

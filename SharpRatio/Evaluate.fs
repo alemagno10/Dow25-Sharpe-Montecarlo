@@ -29,4 +29,4 @@ let operationTrainedWeights (cols: int list) (matrix: float list list) (weights:
             Volatility = volatility
         }
         
-    toJson "data/output_trained_weights.json" result 0.0
+    toJson "results/output_trained_weights.json" result 0.0
