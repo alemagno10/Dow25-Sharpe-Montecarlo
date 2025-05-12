@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="MathTools.fs" />
+    <Compile Include="Simulate.fs" />
     <Compile Include="DataLoader.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

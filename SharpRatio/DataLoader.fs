@@ -2,6 +2,7 @@ module DataLoader
 
 open System
 open System.IO
+open Simulate
 
 type StockRecord = {
     Date: DateTime
@@ -88,3 +89,14 @@ let toMatrix (records: StockRecord list) =
           record.MMM; record.MRK; record.MSFT; record.NKE; record.NVDA; record.PG;
           record.SHW; record.TRV; record.UNH; record.V; record.VZ; record.WMT ]
     )
+
+let saveToCsv (path: string) (sr: SharpResult) (time: float) =
+    use writer = new StreamWriter(path)
+
+    writer.WriteLine("Sharpe,AnnualReturn,Volatility,Stocks,Weights,Time")
+
+    let stocks = String.Join(";", sr.Stocks)
+    let weights = String.Join(";", sr.Weights |> List.map string)
+    writer.WriteLine($"{sr.Sharpe},{sr.AnnualReturn},{sr.Volatility},{stocks},{weights},{time}")
+    
+    
