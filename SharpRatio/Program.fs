@@ -17,11 +17,10 @@ let main (argv: string[]) : int =
         let best = operation cols matrix
         results.Add(best)
 
-    processInParallelLazy 1000 (lazyCombinations 29 [0..29]) simulate
+    processInParallelLazy 1000 (lazyCombinations 25 [0..29]) simulate
 
     let bestOverall = results |> Seq.maxBy (fun r -> r.Sharpe)
 
-    // 7. Print the result
     let printResult r =
         printfn "========================"
         printfn "Best Sharpe Ratio: %.4f" r.Sharpe
@@ -32,6 +31,7 @@ let main (argv: string[]) : int =
         printfn "========================"
 
     let timeTaken = timer.Elapsed.TotalSeconds
+    toJson "data/output.json" bestOverall timeTaken
+
     printResult bestOverall 
-    saveToCsv "data/output.csv" bestOverall timeTaken
     0

@@ -71,7 +71,7 @@ let operation (cols: int list) (matrix: float list list) =
     let results = 
         [1 .. 1000]
         |> List.map(fun _ -> 
-            let weights = generateWeights 29
+            let weights = generateWeights 25
 
             let Rp = multiply selectedReturns weights 
             let RpT = List.transpose Rp

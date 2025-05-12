@@ -2,7 +2,14 @@ module DataLoader
 
 open System
 open System.IO
+open System.Text.Json
+open System.Text.Json.Serialization
 open Simulate
+
+type SimulationOutput = {
+    RuntimeSeconds: float
+    Result: SharpResult
+}
 
 type StockRecord = {
     Date: DateTime
@@ -74,7 +81,7 @@ let parseLine (line: string) =
         WMT = float parts.[30]
     }
 
-let readCsv path =
+let readCsv (path: string) =
     File.ReadAllLines(path)
     |> Seq.skip 1
     |> Seq.map parseLine
@@ -100,3 +107,11 @@ let saveToCsv (path: string) (sr: SharpResult) (time: float) =
     writer.WriteLine($"{sr.Sharpe},{sr.AnnualReturn},{sr.Volatility},{stocks},{weights},{time}")
     
     
+let toJson (path: string) (data: SharpResult) (time: float) =
+    let output = {
+        RuntimeSeconds = time
+        Result = data
+    }
+    let options = JsonSerializerOptions(WriteIndented = true)
+    let json = JsonSerializer.Serialize(output, options)
+    File.WriteAllText(path, json)
