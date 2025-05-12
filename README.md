@@ -47,3 +47,11 @@ A ideia principal é:
     ```bash
     dotnet run --project SharpRatio
 
+## Observações
+O índice de Sharpe é calculado como:
+Sharpe = (Retorno Anualizado - Taxa Livre de Risco) / Volatilidade Anualizada
+
+Neste projeto, a taxa livre de risco é considerada como 0.
+
+Os dados utilizados são de Agosto a Dezembro de 2024.
+

@@ -2,8 +2,7 @@ module DataLoader
 
 open System
 open System.IO
-open System.Text.Json
-open System.Text.Json.Serialization
+open Newtonsoft.Json
 open Simulate
 
 type SimulationOutput = {
@@ -87,6 +86,11 @@ let readCsv (path: string) =
     |> Seq.map parseLine
     |> Seq.toList
 
+let readJson (path: string) : SharpResult =
+    let json = File.ReadAllText(path)
+    let data = JsonConvert.DeserializeObject<SimulationOutput>(json)
+    data.Result
+
 let toMatrix (records: StockRecord list) =
     records
     |> List.map (fun record -> 
@@ -97,21 +101,10 @@ let toMatrix (records: StockRecord list) =
           record.SHW; record.TRV; record.UNH; record.V; record.VZ; record.WMT ]
     )
 
-let saveToCsv (path: string) (sr: SharpResult) (time: float) =
-    use writer = new StreamWriter(path)
-
-    writer.WriteLine("Sharpe,AnnualReturn,Volatility,Stocks,Weights,Time")
-
-    let stocks = String.Join(";", sr.Stocks)
-    let weights = String.Join(";", sr.Weights |> List.map string)
-    writer.WriteLine($"{sr.Sharpe},{sr.AnnualReturn},{sr.Volatility},{stocks},{weights},{time}")
-    
-    
 let toJson (path: string) (data: SharpResult) (time: float) =
     let output = {
         RuntimeSeconds = time
         Result = data
     }
-    let options = JsonSerializerOptions(WriteIndented = true)
-    let json = JsonSerializer.Serialize(output, options)
+    let json = JsonConvert.SerializeObject(output, Formatting.Indented)
     File.WriteAllText(path, json)

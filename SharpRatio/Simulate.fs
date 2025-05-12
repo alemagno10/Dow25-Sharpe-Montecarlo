@@ -69,8 +69,8 @@ let operation (cols: int list) (matrix: float list list) =
     let selectedReturns = toReturns selectedPrices
 
     let results = 
-        [1 .. 1000]
-        |> List.map(fun _ -> 
+        [|1..1000|]
+        |> Array.Parallel.map (fun _ -> 
             let weights = generateWeights 25
 
             let Rp = multiply selectedReturns weights 
@@ -95,5 +95,5 @@ let operation (cols: int list) (matrix: float list list) =
                 Volatility = volatility
             }
         )
-    
-    List.maxBy (fun r -> r.Sharpe) results
+    let resultList = results |> Array.toList
+    List.maxBy (fun r -> r.Sharpe) resultList
